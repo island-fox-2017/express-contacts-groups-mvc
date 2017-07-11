@@ -1,6 +1,3 @@
-const dbModel = require('./db_model');
-const db = new dbModel('./db/contacts.db')
-
 class Contacts {
   constructor(parameter) {
     this.id = parameter.id

@@ -29,6 +29,10 @@ app.use('/addresses', addresses)
 var profiles = require('./router/profiles')
 app.use('/profiles', profiles)
 
+// CONTACTS GROUPS
+var contactsGroups = require('./router/contacts_groups')
+app.use('/contacts_groups', contactsGroups)
+
 app.listen(3000)
 /**
 /** EXPRESS CONTACTS-GROUPS
