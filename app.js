@@ -3,14 +3,19 @@ var app = express();
 var path = require('path');
 var bodyParser = require('body-parser');
 
-const ModelDb = require('./models/DbModel');
-const Contact = require('./models/contact');
-const dGroup = require('./models/groups');
-const dProfile = require('./models/profiles');
-const dAddr = require('./models/addresses');
+// const ModelDb = require('./models/DbModel');
+// const Contact = require('./models/contact');
+// const dGroup = require('./models/groups');
+// const dProfile = require('./models/profiles');
+// const dAddr = require('./models/addresses');
 
+const index = require ('./routers/index');
+const kontak = require ('./routers/contacts');
+const grup = require ('./routers/groups');
+const profil = require ('./routers/profiles');
+const alamat = require ('./routers/addresses');
 
-let dbModel = new ModelDb('./db/data.db');
+// let dbModel = new ModelDb('./db/data.db');
 // var sqlite3 = require('sqlite3').verbose();
 // var db = new sqlite3.Database('./db/data.db');
 
@@ -22,9 +27,12 @@ app.use(express_static);
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
-app.get('/', function (req, res) {
-  res.render('index')
-})
+app.use('/', index)
+app.use('/contacts', kontak)
+app.use('/groups', grup)
+app.use('/profiles', profil)
+app.use('/addresses', alamat)
+
 
 // app.get('/create_table', function (req, res) {
 //     // db.run("CREATE TABLE IF NOT EXISTS Contacts (id INTEGER PRIMARY KEY AUTOINCREMENT, name text, company text, telp_number int, email text)");
@@ -45,177 +53,5 @@ app.get('/', function (req, res) {
 //     res.redirect('/contacts');
 // })
 
-//Contacts Setting
-app.get('/contacts', function (req, res) {
-  // db.all(`SELECT * FROM Contacts`, function (err, data) {
-  Contact.showContact(dbModel.connection, function (err, data) {
-    res.render('contacts', {contact_data: data})
-  })
-})
-
-app.post('/contacts', function (req, res) {
-  Contact.insertContact(dbModel.connection, req.body);
-  // db.run(`INSERT INTO Contacts (name, company, telp_number, email) VALUES ('${req.body.nama}', '${req.body.company_name}', '${req.body.telp_num}', '${req.body.email}' )`);
-    res.redirect('/contacts');
-})
-
-
-//Contacts Edit
-app.get('/contacts/edit/:id', function(req, res) {
-  Contact.editContact(dbModel.connection, req.params, function (err, data){
-  // Contact.editContact(`SELECT * FROM Contacts WHERE id = ${req.params.id}`, function (err, data){
-    res.render('edit_contact', {contact_data: data})
-  })
-})
-
-app.post('/contacts/edit/:id', function(req, res){
-  Contact.updateContact(dbModel.connection, req.body, req.params)
-  // db.run(`UPDATE Contacts SET name='${req.body.nama}', company='${req.body.company_name}', telp_number='${req.body.telp_num}', email='${req.body.email}' WHERE id='${req.params.id}'`)
-  res.redirect('/contacts')
-})
-
-//Contacts Delete
-app.get('/contacts/delete/:id', function(req, res) {
-  Contact.deleteContact(dbModel.connection, req.params)
-  // db.run(`DELETE FROM Contacts WHERE id = ${req.params.id}`, function (err, data) {
-    res.redirect('/contacts')
-})
-
-//Groups Setting
-app.get('/groups', function (req, res) {
-  dGroup.showGroups(dbModel.connection, function (err, data) {
-  // db.all("SELECT * FROM Groups", function (err, data) {
-    res.render('groups', {group_data: data})
-  })
-})
-
-app.post('/groups', function (req, res) {
-  dGroup.insertGroups(dbModel.connection, req.body);
-  // db.run(`INSERT INTO Groups (name_of_group) VALUES ('${req.body.nama_group}')`);
-    res.redirect('/groups');
-})
-
-
-//Groups Edit
-app.get('/groups/edit/:id', function(req, res) {
-  dGroup.editGroups(dbModel.connection, req.params, function (err, data){
-  // db.all(`SELECT * FROM Groups WHERE id = ${req.params.id}`, function (err, data){
-    res.render('edit_group', {group_data: data})
-  })
-})
-
-app.post('/groups/edit/:id', function(req, res){
-  dGroup.updateGroups(dbModel.connection, req.body, req.params);
-  // db.run(`UPDATE Groups SET name_of_group='${req.body.nama_group}' WHERE id=${req.params.id}`)
-  res.redirect('/groups')
-})
-
-//Groups Delete
-app.get('/groups/delete/:id', function(req, res) {
-  dGroup.deleteGroups(dbModel.connection, req.params)
-  // db.run(`DELETE FROM Groups WHERE id = ${req.params.id}`, function (err, data) {
-    res.redirect('/groups')
-})
-
-//Profile Setting
-app.get('/profiles', function (req, res) {
-  dProfile.showProfiles(dbModel.connection, function(err, data, data2){
-    res.render('profiles', {profile_data: data, contact_data: data2})
-  })
-  // db.all("SELECT * FROM Profile", function (err, data) {
-  //   db.all("SELECT id, name FROM Contacts", function (err, data2) {
-  //     res.render('profiles', {profile_data: data, contact_data: data2})
-})
-
-app.post('/profiles', function (req, res) {
-  dProfile.insertProfiles(dbModel.connection, req.body);
-  // db.run(`INSERT INTO Profile (username, password, contact_id)
-  // VALUES ('${req.body.nama_user}', '${req.body.pass}', '${req.body.kontak_id}' )`);
-    res.redirect('/profiles');
-})
-
-//Profile Detail
-app.get('/contacts/detail-profile/:id', function (req, res) {
-  dProfile.showProfilesDetail(dbModel.connection, req.params, function(err, data) {
-  // db.all(`SELECT * FROM Contacts LEFT JOIN Profile ON Contacts.id = Profile.contact_id WHERE Contacts.id=${req.params.id};`, function (err, data) {
-    // console.log(data);
-    res.render('contact-detail', {contact_data: data})
-  })
-})
-
-//Profile Edit
-app.get('/profiles/edit/:id', function(req, res) {
-  dProfile.editProfiles(dbModel.connection, req.params, function (err, data, data2) {
-    res.render('edit_profile', {profile_data: data, contact_data: data2})
-  })
-  // db.all(`SELECT * FROM Profile WHERE id = ${req.params.id}`, function (err, data){
-  //   // res.render('edit_profile', {profile_data: data})
-  //   db.all("SELECT id, name FROM Contacts", function (err, data2) {
-})
-
-app.post('/profiles/edit/:id', function(req, res){
-  dProfile.updateProfiles(dbModel.connection, req.body, req.params)
-  // db.run(`UPDATE Profile SET username='${req.body.nama_user}', password='${req.body.pass}'  WHERE id=${req.params.id}`)
-  res.redirect('/profiles')
-})
-
-//Profile Delete
-app.get('/profiles/delete/:id', function(req, res) {
-  dProfile.deleteProfiles(dbModel.connection, req.params)
-  // db.run(`DELETE FROM Profile WHERE id = ${req.params.id}`, function (err, data) {
-    res.redirect('/profiles')
-})
-
-//Address Setting
-app.get('/addresses', function (req, res) {
-  dAddr.showAddr(dbModel.connection, function(err, data, data2){
-    res.render('addresses', {addr_data: data, contact_data: data2})
-  })
-  // db.all("SELECT * FROM Address", function (err, data) {
-  //   // res.render('addresses', {addr_data: data})
-  //   db.all("SELECT id, name FROM Contacts", function (err, data2) {
-  //     res.render('addresses', {addr_data: data, contact_data: data2})
-  //   })
-  // })
-})
-
-app.post('/addresses', function (req, res) {
-  dAddr.insertAddr(dbModel.connection, req.body)
-  // db.run(`INSERT INTO Address (street, city, zip, contact_id)
-  // VALUES ('${req.body.street}', '${req.body.city}', ${req.body.zip}, '${req.body.kontak_id}' )`);
-    res.redirect('/addresses');
-})
-
-//Address Detail
-app.get('/contacts/detail-address/:id', function (req, res) {
-  dAddr.showAddrDetail(dbModel.connection, req.params, function(err, data) {
-  // db.all(`SELECT * FROM Contacts LEFT JOIN Address ON Contacts.id = Address.contact_id WHERE Contacts.id=${req.params.id};`, function (err, data) {
-    res.render('address-detail', {contact_data: data})
-  })
-})
-
-//Address Edit
-app.get('/addresses/edit/:id', function(req, res) {
-  dAddr.editAddr(dbModel.connection, req.params, function (err, data, data2) {
-    res.render('edit_address', {addr_data: data, contact_data: data2})
-  })
-  // db.all(`SELECT * FROM Address WHERE id = ${req.params.id}`, function (err, data){
-  //   db.all("SELECT id, name FROM Contacts", function (err, data2) {
-  //     res.render('edit_address', {addr_data: data, contact_data: data2})
-})
-
-app.post('/addresses/edit/:id', function(req, res){
-  dAddr.updateAddr(dbModel.connection, req.body, req.params)
-  // db.run(`UPDATE Address SET street='${req.body.street}', city='${req.body.city}', zip=${req.body.zip}  WHERE id=${req.params.id}`);
-  // console.log(`UPDATE Address SET street='${req.body.street}', city='${req.body.city}', zip=${req.body.zip}  WHERE id=${req.params.id}`);
-  res.redirect('/addresses')
-})
-
-//Address Delete
-app.get('/addresses/delete/:id', function(req, res) {
-  dAddr.deleteAddr(dbModel.connection, req.params)
-  // db.run(`DELETE FROM Address WHERE id = ${req.params.id}`, function (err, data) {
-    res.redirect('/addresses')
-})
 
 app.listen(3000)
