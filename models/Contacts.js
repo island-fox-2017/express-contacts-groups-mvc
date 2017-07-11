@@ -1,3 +1,5 @@
+'use strict'
+
 class Contacts {
   constructor(data) {
     this.id = data.id;
@@ -64,7 +66,7 @@ class Contacts {
   // }
 
 
-  static showContactPromise() {
+  static showContactPromise(conn) {
     return new Promise(function(fulfill, reject) {
       conn.all(`SELECT * FROM Contacts`, function(err, rows) {
         if(err) {
@@ -76,7 +78,7 @@ class Contacts {
     })
   }
 
-  static showContactPromise2() {
+  static showContactPromise2(conn) {
     return new Promise(function(fulfill, reject) {
       conn.all(`SELECT
                    *
@@ -95,10 +97,11 @@ class Contacts {
     });
   }
 
-  static callContactPromise() {
-    Contacts.showContactPromise()
+  static callContactPromise(conn) {
+    Contacts.showContactPromise(conn)
     .then(function(data_contact) {
-      return [data_contact, Contacts.showContactPromise2()];
+      return data_contact;
+      //return [data_contact, Contacts.showContactPromise2()];
     })
   }
 

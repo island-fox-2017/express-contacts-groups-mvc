@@ -1,3 +1,5 @@
+'use strict'
+
 class Groups {
   constructor(data) {
     this.id = data.id;

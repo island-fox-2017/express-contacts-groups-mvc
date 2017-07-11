@@ -1,3 +1,5 @@
+'use strict'
+
 class Addresses {
   constructor(data) {
     this.id = data.id;

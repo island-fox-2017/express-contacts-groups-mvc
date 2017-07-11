@@ -1,3 +1,5 @@
+'use strict'
+
 class Profiles {
   constructor(data) {
     this.id = data.id;

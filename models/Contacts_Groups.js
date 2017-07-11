@@ -1,3 +1,5 @@
+'use strict'
+
 class Contacts_Groups {
   constructor(data) {
     this.id = data.id;
