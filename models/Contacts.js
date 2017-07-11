@@ -40,32 +40,6 @@ class Contacts {
       })
   }
 
-  // static showContact(conn, callback) {
-  //   conn.all(`
-  //     SELECT * FROM Contacts;
-  //     `, function(err, rows) {
-  //       if(!err) {
-  //         db.all(`
-  //           SELECT
-  //             *
-  //           FROM
-  //             Groups AS g
-  //           JOIN Contacts_Groups AS cg
-  //             ON g.id = cg.group_id
-  //           JOIN Contacts AS c
-  //             ON c.id = cg.contact_id
-  //           ;.
-  //           `, function(err, rows2) {
-  //             if(!err) {
-  //               callback(rows, rows2);
-  //             }
-  //           });
-  //
-  //       }
-  //     };
-  // }
-
-
   static showContactPromise(conn) {
     return new Promise(function(fulfill, reject) {
       conn.all(`SELECT * FROM Contacts`, function(err, rows) {
@@ -97,28 +71,41 @@ class Contacts {
     });
   }
 
+  // static callContactPromise(conn) {
+  //   return Contacts.showContactPromise(conn)
+  //   .then((data_contact) => {
+  //     return [
+  //       data_contact,
+  //       Contacts.showContactPromise2(conn).then((data_contact_join) => {
+  //         return data_contact_join;
+  //       })
+  //     ];
+  //   })
+  //   .catch((err) => {
+  //     res.send('hiks');
+  //   });
+  // }
+
   static callContactPromise(conn) {
-    Contacts.showContactPromise(conn)
-    .then(function(data_contact) {
+    let data_contact = Contacts.showContactPromise(conn)
+    .then((data_contact) => {
       return data_contact;
-      //return [data_contact, Contacts.showContactPromise2()];
     })
+    .catch((err) => {
+      res.send('hiks error promise contacts');
+    });
+
+    let data_contact_join = Contacts.showContactPromise2(conn)
+    .then((data_contact_join) => {
+      return data_contact_join;
+    })
+    .catch((err) => {
+      res.send('hiks error promise contacts');
+    });
+
+    return Promise.all([data_contact, data_contact_join]);
   }
 
-/*
-  static callContactPromise() {
-    Contact.showContactPromise()
-    .then(data_contact) {
-      return (data_contact, Contact.showQueryPromise2())
-    }
-    .spread(data_contact, datakedua) {
-      return [data_contact, datakedua]
-    }
-    .catch() {
-      return "hiks error"
-    }
-  }
-*/
   static insertData(conn, objSomething) {
     conn.run(`
       INSERT INTO Contacts (name, company, telp_number, email)

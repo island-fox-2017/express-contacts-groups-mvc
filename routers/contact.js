@@ -20,48 +20,12 @@ let db = new sqlite3.Database('./db/data.db');
 //   });
 // });
 
-// router.get('/', function (req, res) {
-//   res.send(Contact.callContactPromise(dbModel.connection));
-// });
-
-
 router.get('/', function (req, res) {
-  db.all(`
-    SELECT * FROM Contacts;
-    `, function(err, rows) {
-      if(!err) {
-        db.all(`
-          SELECT
-            *
-          FROM
-            Groups AS g
-          JOIN Contacts_Groups AS cg
-            ON g.id = cg.group_id
-          JOIN Contacts AS c
-            ON c.id = cg.contact_id
-          ;
-          `, function(err, rows2) {
-            if(!err) {
-              res.render('contacts', {datas: rows, slice: rows2});
-              //res.send(rows2);
-            }
-          });
-      }
-    });
+  Contact.callContactPromise(dbModel.connection)
+  .then(function(result) {
+    res.render('contacts', {datas: result[0], slice: result[1]});
+  })
 });
-
-  //Contact.showContact(dbModel.connection, );
-
-  //var datas = Contact.callContactPromise()
-/*
-  Contact.showAll(dbModel.connection, function(err, rows) {
-    if(!err) {
-      res.render('contacts', {datas: rows});
-    }
-  });
-
-
-*/
 
 
 router.post('/', function (req, res) {
