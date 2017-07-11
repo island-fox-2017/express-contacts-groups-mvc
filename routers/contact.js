@@ -42,4 +42,10 @@ router.get('/contacts/addresses/:id', function(req,res) {
   })
 })
 
+router.get('/contacts/groups/:id', function(req,res) {
+  contactModel.showGroup(connector.connection, req.params, function(err,data) {
+    res.render('show_group', {dataGroup: data})
+  })
+})
+
 module.exports = router

@@ -36,6 +36,17 @@ router.post('/groups/edit/:id', function(req,res) {
   res.redirect('/groups')
 })
 
+router.get('/groups/details/:id', function(req,res) {
+  groupModel.showMember(connector.connection, req.params, function(err,data) {
+    res.render('show_detail_group', {dataMember: data})
+  })
+})
+
+// router.get('/groups/details/delete/:id', function(req,res) {
+//   groupModel.deleteMember(connector.connection, req.params)
+//   res.redirect(`/groups/details/${req.params.id}`)
+// })
+
 
 
 module.exports = router

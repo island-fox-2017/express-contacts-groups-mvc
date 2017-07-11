@@ -54,6 +54,17 @@ class Contact {
     })
   }
 
+  static showGroup(connection, request, callback) {
+    connection.all(`select * from Contacts as c left join Contacts_Groups as cg on c.id = cg.Contacts_id left join Groups as g on cg.Groups_id = g.id where c.id = ${request.id};`, function(err,dataGroup) {
+      if (!err) {
+        callback(false, dataGroup)
+      }
+      else {
+        callback(true, null)
+      }
+    })
+  }
+
 }
 
 module.exports = Contact

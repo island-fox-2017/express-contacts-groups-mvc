@@ -40,6 +40,21 @@ class Group {
     connection.run(`UPDATE Groups SET name_of_group = '${request1.formGroupName}' WHERE id = '${request2.id}';`)
   }
 
+  static showMember(connection, request, callback) {
+    connection.all(`SELECT * FROM Groups AS g LEFT JOIN Contacts_Groups AS cg ON g.id = cg.Groups_id LEFT JOIN Contacts AS c ON cg.Contacts_id = c.id WHERE g.id = ${request.id};`, function(err,dataMember) {
+      if (!err) {
+        callback(false, dataMember)
+      }
+      else {
+        callback(true, null)
+      }
+    })
+  }
+
+  // static deleteMember(connection, request) {
+  //   connection.run(`DELETE FROM Contacts_Groups WHERE id = ${request.id};`)
+  // }
+
 }
 
 
