@@ -6,6 +6,10 @@ let contacts = new ModelContacts()
 const ModelGroups = require("./model/modelGroups")
 var groups = new ModelGroups()
 
+//router
+var groupsRouter = require("./router/groupsRouter")
+var contactRouter = require("./router/contactRouter")
+
 //lirary
 var express = require("express")
 var path = require("path")
@@ -20,7 +24,6 @@ app.use(bodyParser.urlencoded({extended : true}))
 
 app.get("/home", function(req, res) {
   res.render("index")
-  // res.send("apasii")
 })
 app.get("/", function(req, res) {
   res.redirect("/home")
@@ -114,34 +117,17 @@ app.get("/home/profile/contacts/delete/:id", function(req, res) {
 
 //===================GROUPS==================================
 
-app.get("/home/groups",function(req, res) {
-    groups.selectTableAll(db, function(err, rows){
-    res.render("groups",{ data_groups : rows})
-  })
-})
+app.use("/home/groups", groupsRouter)
 
-app.get("/home/groups/add", function(req, res) {
-  res.render("groups-form")
-})
+app.use("/home/groups/add", groupsRouter)
 
-app.post("/home/groups/add",function(req, res) {
-  groups.insertTable(db, req.body)
-  res.redirect("/home/groups")
-})
+app.use("/home/groups/add", groupsRouter)
 
-app.get("/home/groups/edit/:id", function(req, res) {
-   groups.formUpdateTable(db, req.params.id, function(err, rows){
-    res.render("groups-edit", {data_groups : rows})
-  })
-})
-app.post("/home/groups/edit/:id",function(req, res) {
-  groups.updateTable(db, req.body, req.params.id)
-  res.redirect("/home/groups")
-})
-app.get("/home/groups/delete/:id", function(req, res) {
-  groups.deleteTable(db, req.params.id)
-  res.redirect("/home/groups")
-})
+app.use("/home/groups/edit/:id", groupsRouter)
+
+app.use("/home/groups/edit/:id", groupsRouter)
+
+app.use("/home/groups/delete/:id", groupsRouter)
 
 
 app.listen(3091);
