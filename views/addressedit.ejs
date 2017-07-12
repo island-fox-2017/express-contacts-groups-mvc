@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+  <center>
+    <h1>EDIT ADRESS</h1><br><br>
+    <form action="/address/edit/<%=dataAddress[0].id%>" method="POST">
+    Street:<br>
+    <input type="text" name="street" value="<%=dataAddress[0].Street %>">
+    <br><br>
+    City:<br>
+    <input type="text" name="city" value="<%=dataAddress[0].City %>">
+    <br><br>
+    Zip Code:<br>
+    <input type="text" name="zipcode" value="<%=dataAddress[0].Zipcode %>">
+    <br><br>
+    Contact ID:<br>
+
+    <select name="ContactID">
+      <% dataContact.forEach(data =>{ %>
+        <%
+          var selected = ""
+          if(dataAddress[0].ContactID == data.id) {
+            selected = "selected"
+          }
+        %>
+        <option value="<%= data.id %>" <%= selected %> >
+          <%= data.Name %>
+      </option>
+     <% }) %>
+
+    </select>
+
+    <br><br>
+    <input type="submit" value="Submit">
+  </form>
+  </center>
+  </body>
+</html>

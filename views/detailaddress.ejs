@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <style>
+    table {
+      font-family:Gill Sans Extrabold, sans-serif;
+      position: center;
+    }
+
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 1px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+  </style>
+  <title>Contact</title>
+  </head>
+
+  <body>
+  <center><h3>DETAIL PROFILE INFO</h3><center><br>
+  <br><br>
+  <form action="/address" method="POST">
+  <center>
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>Street</th>
+      <th>City</th>
+      <th>Zipcode</th>
+      <th>Name</th>
+      <th>Company</th>
+      <th>Telp</th>
+      <th>Email</th>
+
+      <th colspan='2'></th>
+    </tr>
+    <% detailAdd.forEach(detailaddress =>{%>
+    <tr>
+      <td><%= detailaddress.id %></td>
+      <td><%= detailaddress.Street %></td>
+      <td><%= detailaddress.City %></td>
+      <td><%= detailaddress.Zipcode %></td>
+      <td><%= detailaddress.Name %></td>
+      <td><%= detailaddress.Company %></td>
+      <td><%= detailaddress.Telp %></td>
+      <td><%= detailaddress.Email %></td>
+    </tr>
+      <%})%>
+    </table>
+  </center>
+    </form>
+  </body>
+</html>
