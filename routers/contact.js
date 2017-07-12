@@ -21,10 +21,24 @@ let db = new sqlite3.Database('./db/data.db');
 // });
 
 router.get('/', function (req, res) {
+  // Manipulasi Object Row
+
+
+
   Contact.callContactPromise(dbModel.connection)
   .then(function(result) {
-    res.render('contacts', {datas: result[0], slice: result[1]});
+    for (let i = 0; i < result[0].length; i++) {
+      result[0][i].name_of_group = [];
+      for (let j = 0; j < result[1].length; j++) {
+        if(result[0][i].id === result[1][j].contact_id) {
+          result[0][i].name_of_group.push(result[1][j].name_of_group)
+        }
+      }
+    }
+    //res.send(result[0]);
+    res.render('contacts', {datas: result[0]});
   })
+  
 });
 
 

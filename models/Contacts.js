@@ -71,21 +71,6 @@ class Contacts {
     });
   }
 
-  // static callContactPromise(conn) {
-  //   return Contacts.showContactPromise(conn)
-  //   .then((data_contact) => {
-  //     return [
-  //       data_contact,
-  //       Contacts.showContactPromise2(conn).then((data_contact_join) => {
-  //         return data_contact_join;
-  //       })
-  //     ];
-  //   })
-  //   .catch((err) => {
-  //     res.send('hiks');
-  //   });
-  // }
-
   static callContactPromise(conn) {
     let data_contact = Contacts.showContactPromise(conn)
     .then((data_contact) => {
@@ -105,6 +90,21 @@ class Contacts {
 
     return Promise.all([data_contact, data_contact_join]);
   }
+
+  // static callContactPromise(conn) {
+  //   return Contacts.showContactPromise(conn)
+  //   .then((data_contact) => {
+  //     return [
+  //       data_contact,
+  //       Contacts.showContactPromise2(conn).then((data_contact_join) => {
+  //         return data_contact_join;
+  //       })
+  //     ];
+  //   })
+  //   .catch((err) => {
+  //     res.send('hiks');
+  //   });
+  // }
 
   static insertData(conn, objSomething) {
     conn.run(`
