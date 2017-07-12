@@ -23,8 +23,34 @@ var db = new sqlite3.Database('./db/database.db')
 
 
 //display all contact list
-router.use("/", function(req, res) {
+router.get("/", function(req, res) {
    contacts.selectTableAll(db, function(err, rows) {
      res.render("contacts", {data : rows})
   })
 })
+
+router.get("/add", function(req, res) {
+  res.render("form-contact")
+})
+
+router.post("/add", function(req, res) {
+  contacts.insertTable(db, req.body)
+  res.redirect("/home/contacts")
+})
+
+router.get("/edit/:id",function(req, res) {
+   contacts.formUpdateTable(db, req.params.id, function(err, rows){
+    res.render("edit-contact", {data : rows})
+  })
+})
+router.post("/edit/:id",function(req, res) {
+  contacts.updateTable(db, req.body, req.params.id)
+  res.redirect("/home/contacts")
+})
+
+router.get("/home/contacts/delete/:id", function(req, res) {
+  contacts.deleteTable(conn, id)
+  res.redirect("/home/contacts")
+})
+
+module.exports = router

@@ -9,6 +9,7 @@ var groups = new ModelGroups()
 //router
 var groupsRouter = require("./router/groupsRouter")
 var contactRouter = require("./router/contactRouter")
+var profileRouter = require("./router/profileRouter")
 
 //lirary
 var express = require("express")
@@ -29,104 +30,42 @@ app.get("/", function(req, res) {
   res.redirect("/home")
 })
 
-app.get("/home/profile", function(req, res) {
-  db.all(`SELECT * FROM Data_Profile`, function(err, db_Profile) {
-    res.render("profile", {data_pro : db_Profile})
-  })
-})
+//=============================
 
+app.use("/home/profile", profileRouter)
 //add
-app.get("/home/profile/add", function(req, res) {
-  db.all(`SELECT * FROM Data_Contact`, function(err, db_Contact) {
-    res.render("form-profile", {data_Con : db_Contact})
-  })
-})
-app.post("/home/profile/add", function(req, res) {
-  db.run(`INSERT INTO Data_Profile(username, password, contact_id) VALUES
-     ("${req.body.username}","${req.body.password}","${req.body.contact_id}")`)
-     res.redirect("/home/profile")
-})
-
+app.use("/home/profile/add", profileRouter)
+app.use("/home/profile/add", profileRouter)
 //edit
-app.get("/home/profile/edit/:id",function(req, res) {
-  db.all(`SELECT * FROM Data_Profile WHERE id = "${req.params.id}"`, function(err, db_Profile) {
-    db.all(`SELECT * FROM Data_Contact`,function(err, db_Contact) {
-      res.render("edit-profile", {data_pro : db_Profile, data_Con : db_Contact})
-    })
-  })
-})
-app.post("/home/profile/edit/:id",function(req, res) {
-  db.run(`UPDATE Data_Profile SET username = "${req.body.username}", password = "${req.body.password}", contact_id = "${req.body.contact_id}" WHERE id = "${req.params.id}"`)
-     res.redirect("/home/profile")
-})
+app.use("/home/profile/edit/:id", profileRouter)
+app.use("/home/profile/edit/:id", profileRouter)
 //Detail
-app.get("/home/profile/contacts/:id", function(req, res) {
-  db.all(`SELECT Data_Profile.id, Data_Profile.username,
-    Data_Profile.password,Data_Profile.contact_id, Data_Contact.name, Data_Contact.company,
-    Data_Contact.telp_number, Data_Contact.email FROM Data_Profile
-    JOIN Data_Contact ON Data_Profile.contact_id = Data_Contact.id
-    WHERE Data_Profile.contact_id = ${req.params.id}`, function(err, db_Contact) {
-    res.render("detail", {data_cont : db_Contact});
-    // console.log(db_Contact);
-  })
-})
+app.use("/home/profile/contacts/:id", profileRouter)
 //hapus
-app.get("/home/profile/delete/:id",function(req, res) {
-  // profile.deleteTable(db, req.params.id)
-  profile.deleteTable(db, req.params.id)
-  res.redirect("/home/profile")
-
-})
+app.use("/home/profile/delete/:id", profileRouter)
 
 //=========================Contacts===============================
 
 //display all contact list
-app.get("/home/profile/contacts/", function(req, res) {
-   contacts.selectTableAll(db, function(err, rows) {
-     res.render("contacts", {data : rows})
-  })
-})
-
+app.use("/home/contacts", contactRouter)
 //display form isi Kontak
-app.get("/home/contacts/add", function(req, res) {
-  res.render("form-contact")
-})
-
+app.use("/home/contacts/add", contactRouter)
 //insert ke database
-app.post("/home/profile/contacts/add", function(req, res) {
-  contacts.insertTable(db, req.body)
-  res.redirect("/home/profile/contacts")
-})
-
+app.use("/home/contacts/add", contactRouter)
 //display database
-app.get("/home/profile/contacts/edit/:id",function(req, res) {
-   contacts.formUpdateTable(db, req.params.id, function(err, rows){
-    res.render("edit-contact", {data : rows})
-  })
-})
+app.use("/home/contacts/edit/:id", contactRouter)
 //insert hasil edit database
-app.post("/home/profile/contacts/edit/:id",function(req, res) {
-  contacts.updateTable(db, req.body, req.params.id)
-  res.redirect("/home/profile/contacts")
-})
+app.use("/home/contacts/edit/:id", contactRouter)
 //delete record
-app.get("/home/profile/contacts/delete/:id", function(req, res) {
-  contacts.deleteTable(conn, id)
-  res.redirect("/home/profile/contacts")
-})
+app.use("/home/contacts/delete/:id", contactRouter)
 
 //===================GROUPS==================================
 
 app.use("/home/groups", groupsRouter)
-
 app.use("/home/groups/add", groupsRouter)
-
 app.use("/home/groups/add", groupsRouter)
-
 app.use("/home/groups/edit/:id", groupsRouter)
-
 app.use("/home/groups/edit/:id", groupsRouter)
-
 app.use("/home/groups/delete/:id", groupsRouter)
 
 
