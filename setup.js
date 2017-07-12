@@ -1,14 +1,46 @@
 'use strict'
 
-var sqlite3 = require('sqlite3').verbose()
-var db = new sqlite3.Database('./database/data.db')
+const sqlite = require('sqlite3').verbose();
+const db = new sqlite.Database('./db/data.db');
 
-function createTable() {
-  db.run(`CREATE TABLE IF NOT EXISTS Contacts (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(255) , company VARCHAR(255), phone_num VARCHAR(255)  , email VARCHAR(255));`)
-  db.run(`CREATE TABLE IF NOT EXISTS Groups (id INTEGER PRIMARY KEY AUTOINCREMENT, name_of_group VARCHAR(255));`)
-  db.run(`CREATE TABLE IF NOT EXISTS Profiles (id INTEGER PRIMARY KEY AUTOINCREMENT, username VARCHAR, password VARCHAR, Contacts_id INTEGER);`)
-  db.run(`CREATE TABLE IF NOT EXISTS Addresses (id INTEGER PRIMARY KEY AUTOINCREMENT, street VARCHAR, city VARCHAR, zip VARCHAR, Contacts_id INTEGER);`)
-  db.run(`CREATE TABLE IF NOT EXISTS Contacts_Groups (id INTEGER PRIMARY KEY AUTOINCREMENT, Contacts_id INTEGER, Groups_id INTEGER);`)
+
+let createContactsTable = () => {
+  let contactsTable = `CREATE TABLE IF NOT EXISTS Contacts (contactsid INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(20), company VARCHAR(20), telp_number VARCHAR(12), email VARCHAR(20));`;
+
+  db.run(contactsTable, function(err) {
+    if (!err) console.log('Contacs table created');
+    else console.log('Contacts already defined');
+  });
 }
 
-createTable()
+let createGroupsTable = () => {
+  let groupsTable = `CREATE TABLE IF NOT EXISTS Groups (groupsid INTEGER PRIMARY KEY AUTOINCREMENT, name_of_group VARCHAR(20));`;
+
+  db.run(groupsTable, function(err) {
+    if (!err) console.log('Groups table created');
+    else console.log('Groups already defined');
+  });
+}
+
+let createProfilesTable = () => {
+  let profilesTable = `CREATE TABLE IF NOT EXISTS Profiles (profilesid INTEGER PRIMARY KEY AUTOINCREMENT, username VARCHAR(10), password VARCHAR(15), profilecontact INTEGER, FOREIGN KEY (profilecontact) REFERENCES Contacs(contactsid));`;
+
+  db.run(profilesTable, function(err) {
+    if (!err) console.log('Profiles table created');
+    else console.log('Profiles already defined');
+  })
+}
+
+let createAddressTable = () => {
+  let addressesTable = `CREATE TABLE IF NOT EXISTS Addresses (addressesid INTEGER PRIMARY KEY AUTOINCREMENT, street VARCHAR(15), city VARCHAR(15), zip VARCHAR(5), addresscontact INTEGER, FOREIGN KEY (addresscontact) REFERENCES Contacs(contactsid));`;
+
+  db.run(addressesTable, function(err) {
+    if (!err) console.log('Addresses table created');
+    else console.log('Addresses already defined');
+  })
+}
+
+createGroupsTable();
+createContactsTable();
+createProfilesTable();
+createAddressTable();
