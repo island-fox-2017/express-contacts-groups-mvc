@@ -10,12 +10,14 @@
     <table border="2">
       <tr>
         <th>id</th>
+        <th>Contact Name</th>
         <th>Group Name</th>
       </tr>
       <% groupInput.forEach(group => { %>
         <tr>
-          <th><%= group.id%></th>
-          <th><%= group.name_of_group%></th>
+          <td><%= group.id%></td>
+          <td><%=group.name%></td>
+          <td><%= group.name_of_group%></td>
           <td>
             <a href="/groups/edit/<%=group.id %>">Edit</a>
             <a href="/groups/delete/<%=group.id %>">Delete</a>

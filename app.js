@@ -1,14 +1,6 @@
 const express = require('express')
 const app = express()
 const bodyParser = require ('body-parser')
-// const ejs = require('ejs')
-// var sqlite3 = require('sqlite3').verbose();
-// const ConnectDB = require('./models/connectDB');
-// const Contact = require('./models/contacts')
-// const Profile = require('./models/profile')
-// const Groups = require('./models/groups')
-// const Address = require('./models/addresses')
-// var connect = new ConnectDB()
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended : true}))
@@ -30,4 +22,5 @@ app.use('/profile',profile)
 // ===================================ADDRESS===================================
 var address= require('./routers/address')
 app.use('/address',address)
+
 app.listen(3000)

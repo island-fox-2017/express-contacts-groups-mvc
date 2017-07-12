@@ -8,12 +8,15 @@ class Contact {
     this.email = data.email;
   }
   static showAll(connection, callback){
-    connection.all(`SELECT * FROM Contact`, function(err,rows){
-      if(!err){
-        callback(false,rows)
-      }else {
-        callback(true,null)
-      }
+    connection.all(`SELECT Contact.id , Contact.name, Contact.company, Contact.telp_number , Contact.email ,Groups.name_of_group
+                    FROM Contact
+                      LEFT JOIN ContactGroup ON Contact.id =ContactGroup.contact_id
+                      left JOIN Groups ON Groups.id = ContactGroup.group_id`, function(err,rows){
+                        if(!err){
+                          callback(false,rows)
+                        }else {
+                          callback(true,null)
+                        }
     })
   }
   static insertContact(connection, nameData , companyData, telp_numberData , emailData){
@@ -40,6 +43,15 @@ class Contact {
       email = '${emailData}'
       WHERE id = '${id}'`)
 
+  }
+  static showAddress(connection,id,callback){
+    connection.all(`SELECT * FROM Addresses WHERE contact_id = ${id}`,function (err,rows) {
+      if(!err){
+        callback(false,rows)
+      }else {
+        callback(true,null)
+      }
+    })
   }
 
 }

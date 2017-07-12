@@ -28,6 +28,8 @@ router.post('/edit/:id',function (req,res) {
   res.redirect('/contacts')
 })
 router.get('/show-address/:id', function(req, res) {
-  // db.all(`SELECT Addresses.id , Addresses.street , Addresses.city, Addresses.zipCode`)
+  Contact.showAddress(connect.dataBase,req.params.id,function(err,rows){
+      res.render('show-address',{showAddress : rows })
+  })
 })
 module.exports = router;

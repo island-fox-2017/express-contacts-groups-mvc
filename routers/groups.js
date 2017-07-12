@@ -8,6 +8,7 @@ const Groups = require('../models/groups')
 router.get('/',function (req,res) {
     Groups.showAll(connect.dataBase, function(err,rows) {
       res.render('groups',{groupInput: rows })
+      console.log(rows);
     })
 })
 router.post('/',function (req,res) {

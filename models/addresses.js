@@ -46,5 +46,6 @@ class Address {
       contact_id = '${contact_id}'
       WHERE id = '${id}'`)
   }
+
 }
 module.exports = Address;
