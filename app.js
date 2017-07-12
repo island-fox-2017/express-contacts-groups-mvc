@@ -1,40 +1,41 @@
 'use strict'
 
-const express = require('express');
-const path = require('path')
-const bodyParser = require('body-parser')
+var express = require('express')
+var app = express()
 
-// database
-const DbModel = require('./model/dbconnect.js')
-let db = new DbModel('./db/data.db')
+var ejs = require('ejs')
+app.set('view engine', 'ejs')
 
-// model
-const Contacts = require('./model/contacts')
-const Addresses = require('./model/addresses')
-const Groups = require('./model/groups')
-const Profiles = require('./model/profiles')
+var bodyParser = require('body-parser')
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: true}))
+
+var sqlite3 = require('sqlite3').verbose()
+var db = new sqlite3.Database('./database/data.db')
+
+var dbModel = require('./models/dbModel')
+var contactModel = require('./models/contactModel')
+var groupModel = require('./models/groupModel')
+var profileModel = require('./models/profileModel')
+var addressModel = require('./models/addressModel')
+
+var indexRouter = require('./routers/index')
+var contactRouter = require('./routers/contact')
+var groupRouter = require('./routers/group')
+var profileRouter = require('./routers/profile')
+var addressRouter = require('./routers/address')
+
+app.use('/', indexRouter)
+app.use('/', contactRouter)
+app.use('/', groupRouter)
+app.use('/', profileRouter)
+app.use('/', addressRouter)
 
 
-const app = express();
-
-app.set('view engine', 'ejs');
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+// buat skema DBnya setiap app.js di-run (jika tabel2nya belum ada)
+var connector = new dbModel('./database/data.db')
+connector.createTable()
 
 
-// routing
-const index = require('./routers/index');
-const addresses = require('./routers/addresses');
-const contacts = require('./routers/contacts');
-const groups = require('./routers/groups');
-const profiles = require('./routers/profiles');
+app.listen(3000)
 
-app.use('/', index);
-app.use('/addresses', addresses);
-app.use('/contacts', contacts);
-app.use('/groups', groups);
-app.use('/profiles', profiles);
-
-app.listen(3000);
-console.log('listening on port 3000...');

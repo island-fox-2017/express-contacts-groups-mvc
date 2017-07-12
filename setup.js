@@ -44,12 +44,3 @@ createGroupsTable();
 createContactsTable();
 createProfilesTable();
 createAddressTable();
-
-
-// CREATE TABLE orders (
-//     id INTEGER PRIMARY KEY,
-//     customer_id INTEGER,
-//     salesperson_id INTEGER,
-//     FOREIGN KEY(customer_id) REFERENCES customers(id),
-//     FOREIGN KEY(salesperson_id) REFERENCES salespeople(id)
-// );
