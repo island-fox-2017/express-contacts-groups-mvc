@@ -2,42 +2,60 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>profiles</title>
+    <title>PROFILE PAGE</title>
   </head>
   <body>
-    <table border="1px" width="100%">
-      <tr>
-        <th>id profile</th>
-        <th>username</th>
-        <th>password</th>
-        <th>id contact</th>
-        <th>nama kontak</th>
-        <th>actions</th>
-      </tr>
-      <% dataProfile.forEach(d => { %>
-      <tr>
-        <td><%= d.idProfile %></td>
-        <td><%= d.username %></td>
-        <td><%= d.password %></td>
-        <td><%= d.Contacts_id %></td>
-        <td><%= d.name %></td>
-        <td><a href="/profiles/edit/<%= d.idProfile %>">Edit</a> | <a href="/profiles/delete/<%= d.idProfile %>">Delete</a></td>
-      </tr>
-      <% }) %>
-    </table>
-    <br>
-    <form action="/profiles" method="post">
-      <input type="text" name="formUsername" placeholder="username"><br>
-      <input type="text" name="formPassword" placeholder="password"><br>
-      <!-- <input type="text" name="formIdContact" placeholder="id contact"><br> -->
-      <label for="formIdContact">Contact name:</label>
-      <select name="formIdContact">
-        <% dataKontak.forEach(d => { %>
-        <option value="<%= d.id %>"><%= d.name %></option>
-        <% }) %>
-      </select><br>
-      <input type="submit" name="submit" value="SUBMIT">
-    </form>
-    <br><a href="/">back</a>
+    <h2>Data Profile</h2>
+
+    <div class="form_data">
+        <h3>Tambah Profile</h3>
+        <form class="" action="/profile" method="post">
+          <p>Input your nickname :</p>
+          <input type="text" name="nickname" >
+          <p>Tell me your age :</p>
+          <input type="text" name="age_profile">
+          <p>Kontak ID : </p>
+          <select name = "contact_id">
+              <option value "">
+                -- Choose ID Contact --
+              </option>
+
+              <% dataCont.forEach( cont => { %>
+              <option value ="<%= cont.id %>">
+                <%= cont.name %>
+              </option>
+              <% }) %>
+          </select>
+          <!-- <input type="text" name="contacts_id"><br> -->
+          <br>
+          <button type="submit" name="button">Submit</button>
+        </form>
+    </div>
+
+    <div class="table_data">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nickname</th>
+              <th>Age</th>
+              <th>Contact ID</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% prf.forEach(profile => { %>
+              <tr>
+                <td> <%= profile.id %></td>
+                <td> <%= profile.username %></td>
+                <td> <%= profile.age %></td>
+                <td> <%= profile.contact_id %></td>
+                <td> <a href="/profile/edit/<%= profile.id%>">Edit</a> <a href="/profile/delete/<%= profile.id%>">Delete</a>  <a href="/profile/<%= profile.contact_id%>/contact_detail">Contact</a></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+    </div>
+
   </body>
 </html>
