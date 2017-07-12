@@ -18,6 +18,14 @@ class Groups{
     })
   }
   
+  static selectConjContacts(conn, id, callback){
+    let query = `select * from Groups as g join Contacts_groups as cg on g.id = cg.group_id join Contacts as c on c.id = cg.contacts_id where g.id = '${id}'`;
+    conn.all(query, function (err, rows){
+      if(!err) callback(false, rows);
+      else callback(true, null);
+    })
+  }
+  
   static insert(conn, data){
     let query = `insert into Groups (name_of_group) values ('${data.name_of_group}')`;
     conn.run(query)

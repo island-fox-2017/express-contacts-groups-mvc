@@ -35,6 +35,11 @@ router.get('/delete/:id', function(req, res){
   res.redirect('/groups');
 })
 
+router.get('/:id/contacts', function(req, res){
+  dbGroups.selectConjContacts(dbmodel.conn, req.params.id, function(err, rows){
+    if(!err) res.render('show_contacts_by_id', {header : 'this is group contacts by id', dataGroupContact : rows});
+  })
+})
 
 
 
