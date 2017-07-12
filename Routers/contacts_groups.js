@@ -12,8 +12,7 @@ router.get('/', function(req, res){
     dbContacts.selectAll(dbmodel.conn, function(err, rows2){
       dbGroups.selectAll(dbmodel.conn, function(err, rows3){
         res.render('contacts_groups', {header : 'This is Groups Contacts', dataContactsGroups : rows1, dataContacts : rows2, dataGroups : rows3})
-        console.log(rows2);
-      })
+      });
     });
   });
 });

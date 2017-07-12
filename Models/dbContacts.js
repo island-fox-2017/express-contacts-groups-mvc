@@ -14,7 +14,7 @@ class Contacts {
     let query = `select * from Contacts as c join Contacts_groups as cg on c.id = cg.contacts_id join Groups as g on g.id = cg.group_id where c.id='${id}'`;
     conn.all(query, function (err, rows){
       if(!err) callback(false, rows);
-      else console.log(err);;
+      else console.log(err);
     })
   }
   
@@ -36,9 +36,9 @@ class Contacts {
     conn.run(query);
   }
   
-  static delete(conn, id){
+  static delete(conn, id, callback){
     let query = `delete from 'Contacts' where id='${id}'`;
-    conn.run(query);
+    conn.run(query)
   }
   
   static selectContactAddress(conn, id, callback){

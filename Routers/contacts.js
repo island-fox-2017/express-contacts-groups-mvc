@@ -1,6 +1,7 @@
 const express = require('express');
 const dbModel = require('../Models/dbModels');
 const dbContacts = require('../Models/dbContacts');
+const dbContactsGroups = require('../Models/dbContactsGroups');
 
 var router = express.Router();
 var dbmodel = new dbModel('./db/contact_group.db')
@@ -14,7 +15,7 @@ router.get('/', function (req, res){
 
 router.post('/', function(req, res){
   dbContacts.insert(dbmodel.conn, req.body);
-  res.redirect('/')
+  res.redirect('/contacts')
 })
 
 router.get('/edit/:id', function (req, res){
@@ -32,8 +33,10 @@ router.post('/edit/:id', function(req, res){
 
 router.get('/delete/:id', function(req, res){
   dbContacts.delete(dbmodel.conn, req.params.id);
+  dbContactsGroups.deleteConjContacts(dbmodel.conn, req.params.id);
   res.redirect('/contacts');
-})
+  });
+    
 
 router.get('/:id/address', function(req, res){
   dbContacts.selectContactAddress(dbmodel.conn, req.params.id, function(err, rows){
