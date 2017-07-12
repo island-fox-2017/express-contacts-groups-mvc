@@ -16,6 +16,7 @@ app.get('/', function(req, res){
   res.render('index')
 })
 
+//CONTACT
 app.get('/contacts', function(req, res){
   db.all('SELECT * FROM Contacts', function(err, rows){
     res.render('contacts', {data_contact : rows})
@@ -46,7 +47,9 @@ app.post('/contacts/edit/:id', function(req, res){
   id='${req.params.id}'`)
   res.redirect('/contacts')
 })
+//CONTACT
 
+//GROUPS
 app.get('/groups', function(req, res){
   db.all('SELECT * FROM Groups', function(err, datas){
     res.render('groups',{data_group : datas})
@@ -73,6 +76,7 @@ app.post('/groups/edit/:id', function(req, res){
   db.run(`UPDATE Groups SET name_of_group='${req.body.saveNameGroup}' WHERE id='${req.params.id}'`)
   res.redirect('/groups')
 })
+//GROUPS
 
 app.get('/profiles', function(req, res){
   db.all('SELECT Profiles.id, Profiles.username, Profiles.password, Profiles.Contact_id, Contacts.name, Contacts.company, Contacts.telp_number, Contacts.email FROM Profiles JOIN Contacts ON Profiles.Contact_id = Contacts.id;', function(err, rows){
