@@ -10,8 +10,8 @@ class Contacts {
     })
   }
   
-  static selectConjGroups(conn,callback){
-    let query = `select Contacts.id, Contacts.name, Contacts.company, Contacts.telp_number, Contacts.email, Groups.name_of_group from Contacts join Contacts_groups on Contacts.id = Contacts_groups.contacts_id join Groups on Groups.id = Contacts_groups.group_id`;
+  static selectConjGroups(conn,id,callback){
+    let query = `select * from Contacts as c join Contacts_groups as cg on c.id = cg.contacts_id join Groups as g on g.id = cg.group_id where c.id='${id}'`;
     conn.all(query, function (err, rows){
       if(!err) callback(false, rows);
       else console.log(err);;
