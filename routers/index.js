@@ -1,9 +1,10 @@
-'use strict'
-var express = require('express')
-var router = express.Router()
+const express = require('express');
+const router = express.Router();
 
-router.get('/', function(req, res) {
-  res.render('index')
-})
+const DbModel = require('../models/DbModel');
 
-module.exports = router
+router.get('/', function(req, res){
+  res.render('index');
+});
+
+module.exports = router;
