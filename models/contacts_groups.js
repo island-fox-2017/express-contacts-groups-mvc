@@ -20,6 +20,17 @@ class ContactsGroups {
               VALUES ('${body.contact_id}', '${body.group_id}')`)
   }
   
+  static show3Join(conn, callback) {
+    conn.all(`SELECT * FROM groups JOIN contacts_groups ON groups.id = contacts_groups.groups_id
+              JOIN contacts ON contacts.id = contacts_groups.contacts_id`, function(err, rows) {
+                if (!err) {
+                  callback(false, rows)
+                } else {
+                  callback(true, null)
+                }  
+              })
+  }
+  
 }
 
 module.exports = ContactsGroups

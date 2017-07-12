@@ -9,7 +9,11 @@ const group = require('../models/groups');
 
 router.get('/', function(req, res) {
   contactGroup.selectAll(db.connection, function(err, rows) {
-    res.render('contacts_groups', {contactGroup: rows})
+    contact.selectAll(db.connection, function(err1, rows1) {
+      group.selectAll(db.connection, function(err2, rows2) {        
+        res.render('contacts_groups', {contactGroup: rows, name_contact: rows1, name_group: rows2})
+      })
+    })
   })
 })
 

@@ -2,11 +2,9 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>contacts groups</title>
-    <link rel="stylesheet" href="/style.css">
+    <title>groups contacts</title>
   </head>
   <body>
-    <!-- <%= JSON.stringify(contactGroup) %><br> -->
     <form class="" action="/contacts_groups/add" method="POST">
       <a href="/"><input type="button" value="HOME"></a>      
       <input type="submit" name="" value="ASSIGN NEW CONTACTS GROUPS">
@@ -18,15 +16,15 @@
     <table style="table">      
       <tr style="tr">
         <th style="th">ID</th>
-        <th style="th">Contacts ID</th>  
-        <th style="th">Groups ID</th>        
+        <th style="th">Name of Group</th>  
+        <th style="th">Name of Contact</th>        
       </tr>            
       
-      <% contactGroup.forEach(cg => { %>     
+      <% olah.forEach(hasilPengolahandiFunction => { %>     
       <tr style="tr">
-        <td style="td"><%= cg.id %></td>
-        <td style="td"><%= cg.contacts_id %></td>        
-        <td style="td"><%= cg.groups_id %></td>  
+        <td style="td"><%= hasilPengolahandiFunction.groups_id %></td>
+        <td style="td"><%= hasilPengolahandiFunction.name_of_group %></td>        
+        <td style="td"><%= hasilPengolahandiFunction.name %></td>  
       </tr>
       <% }) %>
       
