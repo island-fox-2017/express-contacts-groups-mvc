@@ -25,16 +25,37 @@ router.get('/', function(req, res){
       res.redirect('/address');
   });
 
-  router.get('/edit/:id', function(req, res){
-    Address.edit(DBmodel.connection, req.params.id, function(err, result){
-      if(!err)
-      {
-          Contact.findAll(DBmodel.connection, function(err, result2){
-          res.render('addressedit', {dataAdd: result, dataCon: result2});
+  // router.get('/edit/:id', function(req, res){
+  //   Address.edit(DBmodel.connection, req.params.id, function(err, result){
+  //     if(!err)
+  //     {
+  //         Contact.findAll(DBmodel.connection, function(err, result2){
+  //         res.render('addressedit', {dataAdd: result, dataCon: result2});
+  //         });
+  //     }
+  //   });
+  // });
+
+  router.get('/', function(req, res){
+      Address.findAll(DBmodel.connection, function(err, data){
+        if(!err)
+        {
+          data.forEach(function (data){
+            // db each keluarin per object
+            db.each(`SELECT * FROM Contact WHERE id = ${data.Contact_id}`, function (err, data_contact) {
+              console.log('----', err);
+              // data['firstname'] = data_contact.Name
+              // data['firstname'] = data_contact.Name
+            })
+          })
+          Contact.findAll(DBmodel.connection, function(err, data2)
+          {
+          res.render('address', {dataAdd: data, dataCon: data2});
           });
-      }
+        }
+      });
     });
-  });
+
 
   // post the edited
   router.post('/edit/:id', function(req, res){

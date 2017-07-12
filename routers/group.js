@@ -13,31 +13,31 @@ router.get('/', function(req, res){
 });
 
   //go to group form to add group
-  router.get('/group/addgroup', function(req, res){
+  router.get('/addgroup', function(req, res){
     res.render('groupaddform');
   });
 
   //add new group on database
-  router.post('/group/addgroup', function(req, res){
+  router.post('/addgroup', function(req, res){
     Group.AddNew(DBmodel.connection, req.body);
     res.redirect('/group');
   })
 
   //go to the group edit form
-  router.get('/group/edit/:id', function(req, res){
+  router.get('/edit/:id', function(req, res){
     Group.edit(DBmodel.connection, req.params.id, function(err, rows){
       res.render('groupedit', {dataGroup: rows});
     });
   });
 
   //edit data group from groupeditform
-  router.post('/group/edit/:id', function(req, res){
+  router.post('/edit/:id', function(req, res){
     Group.updateEdit(DBmodel.connection, req.params.id, req.body);
     res.redirect('/group');
   })
 
   //delete data from group info interface
-  router.get('/group/delete/:id', function(req, res){
+  router.get('/delete/:id', function(req, res){
     Group.deleteCont(DBmodel.connection, req.params.id);
     res.redirect('/group');
   });

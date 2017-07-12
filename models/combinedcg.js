@@ -11,6 +11,9 @@ class combinedCG {
     })
   }
 
+  static deleteCont(con, ident){
+    con.all(`DELETE FROM CG WHERE GroupID = '${ident}'`);
+  }
 
 }
 

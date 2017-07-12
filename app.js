@@ -32,6 +32,7 @@ const addresses = require('./routers/address')
 const profiles = require('./routers/profile')
 const contactandgroups = require('./routers/contactandgroup')
 const combinedcgs = require('./routers/combinedcg')
+const contcombinedcgs = require('./routers/contcombinedcg')
 
 app.use('/home', home);
 app.use('/contact', contacts);
@@ -40,5 +41,6 @@ app.use('/address', addresses);
 app.use('/profile', profiles);
 app.use('/contactandgroup', contactandgroups);
 app.use('/combinedcg', combinedcgs);
+app.use('/contcombinedcg', contcombinedcgs);
 
 app.listen(3000);

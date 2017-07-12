@@ -5,6 +5,7 @@ var dbmodel = require('../models/dbModels');
 var DBmodel = new dbmodel('./db/data.db');
 
 var combinedcg = require('../models/combinedcg');
+var Group = require('../models/group');
 
 router.get('/', function(req, res){
   combinedcg.findAll(DBmodel.connection, function(err, rows){
@@ -13,7 +14,11 @@ router.get('/', function(req, res){
   });
 });
 
-// });
+router.get('/delete/:id', function(req, res){
+  combinedcg.deleteCont(DBmodel.connection, req.params.id);
+  Group.deleteCont(DBmodel.connection, req.params.id);
+  res.redirect('/combinedcg');
+});
 
 //parsing object
 function formatGroups(obj){

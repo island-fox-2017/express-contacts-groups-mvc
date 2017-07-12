@@ -18,25 +18,25 @@
       background-color: #dddddd;
     }
   </style>
-  <title>Combined Contacts and Groups</title>
+  <title>Contacts with their groups </title>
   </head>
 
   <body>
-  <center><h3>Combined Contacts and Groups</h3><center><br>
+  <center><h3> Contacts with their groups </h3><center><br>
   <center>
   <table>
     <tr>
-      <th>Group Name</th>
-      <th>Group ID</th>
       <th>Contact Name</th>
+      <th>Contact ID</th>
+      <th>Group Name</th>
       <th colspan='2'></th>
     </tr>
-    <% data_combinedcg.forEach( GropCont =>{%>
+    <% data_contcombinedcg.forEach( GropCont =>{%>
     <tr>
-      <td><%= GropCont.GroupName %></td>
-      <td><%= GropCont.GroupID %></td>
       <td><%= GropCont.Name %></td>
-      <td><a href="/combinedcg/delete/<%= GropCont.GroupID %>"><button type="button" name="Delete">DELETE</button></a></td>
+      <td><%= GropCont.ContactID %></td>
+      <td><%= GropCont.GroupName %></td>
+      <td><a href="/contcombinedcg/delete/<%= GropCont.ContactID %>"><button type="button" name="Delete">DELETE</button></a></td>
       </tr>
       <%})%>
     </table>
