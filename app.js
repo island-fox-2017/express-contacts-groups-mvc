@@ -48,7 +48,7 @@ app.use('/home', home);
 app.use('/contact', contacts);
 app.use('/group', groups);
 app.use('/profile', profiles);
-// app.use('/address', addresses);
+app.use('/address', addresses);
 
 
 // //---------------ORM-------------------//
@@ -199,57 +199,57 @@ app.use('/profile', profiles);
 //-------------Address------------//
 //-------------------------------//
 
-const Address = require('./models/address');
-
-//show table Address
-app.get('/address', function(req, res) {
-  Address.showAddress(dbCreate.connection, function(err, rows) {
-    res.render('address', {
-      dataAddress: rows
-    });
-  });
-});
-//add new address
-app.get('/address/add', function(req, res){
-  Address.contactProfile(dbCreate.connection, function(err, rows){
-  res.render('addressform', {dataContact: rows});
-  })
-})
-//add and submit address data
-app.post('/address/add', function(req, res){
-  Address.addAddress(dbCreate.connection, req.body)
-  res.redirect('/address');
-})
-//edit form
-app.get('/address/edit/:id', function(req, res) {
-  Address.editAddress(dbCreate.connection, req.params, function(err, rows) {
-    Contact.showContact(dbCreate.connection, function(err, rows2) {
-      res.render('addressedit', {
-        dataAddress: rows,
-        dataContact: rows2
-      });
-    });
-  });
-});
-//update profile data
-app.post('/address/edit/:id', function(req, res) {
-  Address.updateAddress(dbCreate.connection, req.body, req.params);
-  res.redirect('/address');
-});
-
-//delete
-app.get('/address/delete/:id', function(req, res) {
-  Address.deleteAddress(dbCreate.connection, req.params)
-  res.redirect('/address');
-});
-
-//relation one to many
-app.get('/address/detail/:id', function(req, res) {
-  Address.joinAddress(dbCreate.connection, req.params, function(err, rows) {
-    res.render('detailaddress', {
-      detailAdd: rows
-    });
-  });
-});
+// const Address = require('./models/address');
+//
+// //show table Address
+// app.get('/address', function(req, res) {
+//   Address.showAddress(dbCreate.connection, function(err, rows) {
+//     res.render('address', {
+//       dataAddress: rows
+//     });
+//   });
+// });
+// //add new address
+// app.get('/address/add', function(req, res){
+//   Address.contactProfile(dbCreate.connection, function(err, rows){
+//   res.render('addressform', {dataContact: rows});
+//   })
+// })
+// //add and submit address data
+// app.post('/address/add', function(req, res){
+//   Address.addAddress(dbCreate.connection, req.body)
+//   res.redirect('/address');
+// })
+// //edit form
+// app.get('/address/edit/:id', function(req, res) {
+//   Address.editAddress(dbCreate.connection, req.params, function(err, rows) {
+//     Contact.showContact(dbCreate.connection, function(err, rows2) {
+//       res.render('addressedit', {
+//         dataAddress: rows,
+//         dataContact: rows2
+//       });
+//     });
+//   });
+// });
+// //update profile data
+// app.post('/address/edit/:id', function(req, res) {
+//   Address.updateAddress(dbCreate.connection, req.body, req.params);
+//   res.redirect('/address');
+// });
+//
+// //delete
+// app.get('/address/delete/:id', function(req, res) {
+//   Address.deleteAddress(dbCreate.connection, req.params)
+//   res.redirect('/address');
+// });
+//
+// //relation one to many
+// app.get('/address/detail/:id', function(req, res) {
+//   Address.joinAddress(dbCreate.connection, req.params, function(err, rows) {
+//     res.render('detailaddress', {
+//       detailAdd: rows
+//     });
+//   });
+// });
 
 app.listen(3000);
