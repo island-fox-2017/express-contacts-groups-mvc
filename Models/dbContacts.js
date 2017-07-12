@@ -10,6 +10,14 @@ class Contacts {
     })
   }
   
+  static selectConjGroups(conn,callback){
+    let query = `select Contacts.id, Contacts.name, Contacts.company, Contacts.telp_number, Contacts.email, Groups.name_of_group from Contacts join Contacts_groups on Contacts.id = Contacts_groups.contacts_id join Groups on Groups.id = Contacts_groups.group_id`;
+    conn.all(query, function (err, rows){
+      if(!err) callback(false, rows);
+      else console.log(err);;
+    })
+  }
+  
   static selectById(conn, id, callback){
     let query = `select * from Contacts where id = '${id}' `;
     conn.all(query, function (err, rows){

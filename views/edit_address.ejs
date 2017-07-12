@@ -24,8 +24,9 @@
           <td>Contact id:</td>
           <td>
             <select name="contacts_id">
+              <option value="<%= data_address[0].contacts_id %>"><%= data_contacts[(data_address[0].contacts_id-1)].name%></option>
               <% data_contacts.forEach( dt =>{ %>
-                <option value="<%=dt.id %>">(<%= dt.id %>). <%= dt.name %></option>
+                <option value="<%=dt.id %>"><%= dt.name %></option>
               <% }) %>
             </select>
           </td>

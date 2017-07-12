@@ -5,9 +5,8 @@ const dbContacts = require('../Models/dbContacts');
 var router = express.Router();
 var dbmodel = new dbModel('./db/contact_group.db')
 
-
 router.get('/', function (req, res){
-  dbContacts.selectAll(dbmodel.conn, function(err, rows){
+  dbContacts.selectConjGroups(dbmodel.conn, function(err, rows){
     if (!err) res.render('contacts', {header: 'This is contacts page', data_contacts : rows});
     else res.send(`Ada error : ${err}`);
   })
@@ -15,7 +14,7 @@ router.get('/', function (req, res){
 
 router.post('/', function(req, res){
   dbContacts.insert(dbmodel.conn, req.body);
-  res.redirect('/contacts')
+  res.redirect('/')
 })
 
 router.get('/edit/:id', function (req, res){

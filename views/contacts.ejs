@@ -13,6 +13,7 @@
       <th>Company</th>
       <th>telp_number</th>
       <th>email</th>
+      <th>Groups</th>
       </tr>
     <% data_contacts.forEach( contacts => { %>
       <tr>
@@ -21,6 +22,7 @@
       <td><%= contacts.company %></td>
       <td><%= contacts.telp_number %></td>
       <td><%= contacts.email %></td>
+      <td><%= contacts.name_of_group %></td>
       <td>
         <a href="/contacts/edit/<%=contacts.id%>">edit</a>
         <a href="/contacts/delete/<%=contacts.id%>">delete</a>

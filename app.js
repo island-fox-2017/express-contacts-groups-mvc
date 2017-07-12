@@ -39,10 +39,11 @@ const express = require('express');
 
 //requirements routing
 const index = require('./Routers/index');
-const addresses = require('./Routers/addresses')
-const contacts = require('./Routers/contacts')
-const groups = require('./Routers/groups')
-const profiles = require('./Routers/profiles')
+const addresses = require('./Routers/addresses');
+const contacts = require('./Routers/contacts');
+const groups = require('./Routers/groups');
+const profiles = require('./Routers/profiles');
+const contactsGroups = require('./Routers/contacts_groups');
 
 var app = express();
 
@@ -61,6 +62,7 @@ app.use('/contacts', contacts);
 app.use('/groups', groups);
 app.use('/profiles', profiles);
 app.use('/address', addresses);
+app.use('/contactsGroups', contactsGroups);
 
 
 app.listen(3000);
