@@ -14,6 +14,7 @@ const kontak = require ('./routers/contacts');
 const grup = require ('./routers/groups');
 const profil = require ('./routers/profiles');
 const alamat = require ('./routers/addresses');
+const grup_kontak = require ('./routers/groups-contacts');
 
 // let dbModel = new ModelDb('./db/data.db');
 // var sqlite3 = require('sqlite3').verbose();
@@ -27,11 +28,12 @@ app.use(express_static);
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
-app.use('/', index)
-app.use('/contacts', kontak)
-app.use('/groups', grup)
-app.use('/profiles', profil)
-app.use('/addresses', alamat)
+app.use('/', index);
+app.use('/contacts', kontak);
+app.use('/groups', grup);
+app.use('/profiles', profil);
+app.use('/addresses', alamat);
+app.use('/groups-contacts', grup_kontak);
 
 
 // app.get('/create_table', function (req, res) {
