@@ -9,11 +9,13 @@ class Address{
     })
   }
   
-  static selectById(conn, id, callback){
-    let query = `select * from Address where id = '${id}' `;
-    conn.all(query, function (err, rows){
-      if(!err) callback(false, rows);
-      else callback(true, null);
+  static selectById(conn, id){
+    return new Promise(function(resolve, reject){
+      let query = `select * from Address where id = '${id}' `;
+      conn.all(query, function (err, rows){
+        if(!err) resolve(rows);
+        else reject(err);
+      })
     })
   }
   
@@ -32,13 +34,15 @@ class Address{
     conn.run(query);
   }
   
-  static selectContactAddress(conn, callback){
-    let query = `select address.id, address.street, address.city, address.zip_code, Contacts.name, Contacts.company from Address join Contacts on contacts_id = Contacts.id`;
-    conn.all(query, function(err, rows){
-      if (!err) callback(false, rows);
-      else callback(true, null);
-    })
-  }
+  static selectContactAddress(conn){
+    return new Promise(function(resolve, reject){
+      let query = `select address.id, address.street, address.city, address.zip_code, Contacts.name, Contacts.company from Address join Contacts on contacts_id = Contacts.id`;
+      conn.all(query, function(err, rows){
+        if (!err) resolve(rows);
+        else reject(err);
+      });
+    });
+  };
 }
 
 module.exports = Address;

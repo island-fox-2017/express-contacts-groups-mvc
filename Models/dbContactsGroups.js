@@ -3,21 +3,31 @@ class ContactsGroups{
     
   }
   
-  static selectAll(conn, callback){
-    let query = `select * from Contacts_groups as cg join Contacts as c on cg.contacts_id = c.id join Groups as g on g.id = cg.group_id`;
-    conn.all(query, function(err, rows){
-      if (!err) callback(false, rows);
-      else callback(true, null);
+  static selectAll(conn){
+    return new Promise(function (resolve, reject){
+      let query = `select * from Contacts_groups as cg join Contacts as c on cg.contacts_id = c.id join Groups as g on g.id = cg.group_id`;
+      conn.all(query, function(err, rows){
+        if (!err) resolve(rows);
+        else reject(err);
+      })
     })
-  }
+  }  
   
-  static selectById(conn, id, callback){
-    let query = `select * from Contacts_groups where id = '${id}'`;
-    conn.all(query, function (err, rows){
-      if (!err) callback(false, rows);
-      else callback(true, null);
+  static selectById(conn, id){
+    return new Promise(function (resolve, reject){
+      let query = `select * from Contacts_groups where id = '${id}'`;
+      conn.all(query, function (err, rows){
+        if (!err) resolve(rows);
+        else reject(err);
+      })
     })
   }
+  //   let query = `select * from Contacts_groups where id = '${id}'`;
+  //   conn.all(query, function (err, rows){
+  //     if (!err) callback(false, rows);
+  //     else callback(true, null);
+  //   })
+  // }
     
   static insert(conn, data){
     let query = `insert into Contacts_groups (contacts_id, group_id) values ('${data.contacts_id}', '${data.group_id}')`;

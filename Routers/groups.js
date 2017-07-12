@@ -8,11 +8,15 @@ var dbmodel = new dbModel('./db/contact_group.db')
 var router = express.Router();
 
 router.get('/', function(req, res){
-  dbGroups.selectAll(dbmodel.conn, function (err, rows){
-    if (!err) res.render('groups', {header : 'Groups Page', data_groups : rows });
-    else res.send(`ada error ${err}`);
-  })
-})
+  dbGroups.selectAll(dbmodel.conn)
+    .then(function(rows){
+      res.render('groups', {header : 'Groups Page', data_groups : rows });
+    })
+    .catch(function(){
+      res.send(`ada error ${err}`);
+    })
+})  
+
 
 router.post('/', function(req, res){
   dbGroups.insert(dbmodel.conn, req.body);

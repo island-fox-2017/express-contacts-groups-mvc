@@ -3,12 +3,20 @@ class Groups{
   }
   
   static selectAll(conn,callback){
-    let query = `select * from Groups`;
-    conn.all(query, function (err, rows){
-      if(!err) callback(false, rows);
-      else console.log(err);;
+    return new Promise(function (resolve, reject){
+      let query = `select * from Groups`;
+      conn.all(query, function (err, rows){
+        if(!err) resolve(rows);
+        else reject(err);;
+      })
     })
-  }
+  }  
+  //   let query = `select * from Groups`;
+  //   conn.all(query, function (err, rows){
+  //     if(!err) callback(false, rows);
+  //     else console.log(err);;
+  //   })
+  // }
   
   static selectById(conn, id, callback){
     let query = `select * from Groups where id = '${id}' `;

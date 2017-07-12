@@ -7,11 +7,21 @@ var router = express.Router();
 var dbmodel = new dbModel('./db/contact_group.db')
 
 router.get('/', function (req, res){
-  dbContacts.selectAll(dbmodel.conn, function(err, rows){
-    if (!err) res.render('contacts', {header: 'This is contacts page', data_contacts : rows});
-    else res.send(`Ada error : ${err}`);
+  dbContacts.selectAll(dbmodel.conn)
+    .then(function(rows){
+      res.render('contacts', {header: 'This is contacts page', data_contacts : rows});
+    })
+    .catch(function(err){
+      res.send(`Ada error : ${err}`);
+    })
   })
-})
+        
+//     
+//     , function(err, rows){
+//     if (!err) res.render('contacts', {header: 'This is contacts page', data_contacts : rows});
+//     else res.send(`Ada error : ${err}`);
+//   })
+// })
 
 router.post('/', function(req, res){
   dbContacts.insert(dbmodel.conn, req.body);

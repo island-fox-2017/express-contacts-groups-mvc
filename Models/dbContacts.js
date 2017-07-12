@@ -2,11 +2,13 @@ class Contacts {
   constructor(){
   }
   
-  static selectAll(conn,callback){
-    let query = `select * from Contacts`;
-    conn.all(query, function (err, rows){
-      if(!err) callback(false, rows);
-      else console.log(err);;
+  static selectAll(conn){
+    return new Promise(function(resolve, reject){
+      let query = `select * from Contacts`;
+      conn.all(query, function (err, data_contacts){
+        if(!err) resolve(data_contacts);
+        else reject(err);
+      })
     })
   }
   
